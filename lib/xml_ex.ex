@@ -1,18 +1,27 @@
 defmodule XML do
   import Record
 
-  defrecord :xmlElement,
-            Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl")
-  defrecord :xmlAttribute,
-            Record.extract(:xmlAttribute, from_lib: "xmerl/include/xmerl.hrl")
-  defrecord :xmlText,
-            Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl")
-
   def doc(str) do
-    :xmerl_scan.string to_char_list(str)
+    {xml, _rest} = :xmerl_scan.string(to_unicode_char_list(str))
+    xml
   end
 
   def xpath(document, path) do
-    :xmlerl_xpath.string to_char_list(path), document
+    :xmerl_xpath.string to_char_list(path), document
+  end
+
+  def children(element), do: elem(element, 8)
+  def content(element) do
+    children(element)
+    |> Enum.find(fn c -> elem(c,0) == :xmlText end)
+    |> elem(4)
+    |> to_string
+  end
+
+  defp to_unicode_char_list(str) do
+    str
+    |> to_char_list
+    |> :unicode.characters_to_binary
+    |> :erlang.bitstring_to_list
   end
 end
