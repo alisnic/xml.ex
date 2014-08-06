@@ -10,7 +10,10 @@ defmodule XML do
     :xmerl_xpath.string to_char_list(path), document
   end
 
+  def children([h|t]),   do: children(h)
   def children(element), do: elem(element, 8)
+
+  def content([h|t]), do: content(h)
   def content(element) do
     children(element)
     |> Enum.find(fn c -> elem(c,0) == :xmlText end)

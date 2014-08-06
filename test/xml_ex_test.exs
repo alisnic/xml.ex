@@ -37,12 +37,30 @@ defmodule XmlExTest do
     assert tag == :html
   end
 
+  test "finds element children" do
+    [child] = simple_xml
+    |> XML.doc
+    |> XML.xpath("/html/head/title")
+    |> XML.children
+
+    assert elem(child, 0) == :xmlText
+  end
+
+  test "returns element content" do
+    content = simple_xml
+    |> XML.doc
+    |> XML.xpath("/html/head/title")
+    |> XML.content
+
+    assert content == "Awesome"
+  end
+
   test "finds title via xpath" do
     data = simple_xml
     |> XML.doc
     |> XML.xpath("/html/head/title")
 
     [ title ] = data
-    IO.inspect XML.content(title)
+    assert elem(title, 1) == :title
   end
 end
