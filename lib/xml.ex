@@ -1,5 +1,5 @@
 defmodule XML do
-  def doc(str) do
+  def parse(str) do
     {xml, _rest} = :xmerl_scan.string(to_unicode_char_list(str))
     xml
   end

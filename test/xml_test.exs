@@ -28,18 +28,18 @@ defmodule XmlTest do
   end
 
   test "parses a simple xml" do
-    tag = XML.doc(simple_xml) |> elem(1)
+    tag = XML.parse(simple_xml) |> elem(1)
     assert tag == :html
   end
 
   test "parses a unicode xml" do
-    tag = XML.doc(unicode_xml) |> elem(1)
+    tag = XML.parse(unicode_xml) |> elem(1)
     assert tag == :html
   end
 
   test "finds element children" do
     [child] = simple_xml
-    |> XML.doc
+    |> XML.parse
     |> XML.xpath("/html/head/title")
     |> XML.children
 
@@ -48,7 +48,7 @@ defmodule XmlTest do
 
   test "returns element content" do
     content = simple_xml
-    |> XML.doc
+    |> XML.parse
     |> XML.xpath("/html/head/title")
     |> XML.content
 
@@ -57,7 +57,7 @@ defmodule XmlTest do
 
   test "finds all attributes" do
     attrs = simple_xml
-    |> XML.doc
+    |> XML.parse
     |> XML.xpath("/html/body/p")
     |> XML.attributes
 
@@ -66,7 +66,7 @@ defmodule XmlTest do
 
   test "finds a attribute by name" do
     class = simple_xml
-    |> XML.doc
+    |> XML.parse
     |> XML.xpath("/html/body/p")
     |> XML.attribute(:class)
 
@@ -75,7 +75,7 @@ defmodule XmlTest do
 
   test "finds title via xpath" do
     data = simple_xml
-    |> XML.doc
+    |> XML.parse
     |> XML.xpath("/html/head/title")
 
     [ title ] = data
