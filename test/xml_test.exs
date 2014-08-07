@@ -1,4 +1,4 @@
-defmodule XmlExTest do
+defmodule XmlTest do
   use ExUnit.Case, async: true
 
   def simple_xml do
