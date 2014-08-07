@@ -1,5 +1,5 @@
 defmodule XmlExTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   def simple_xml do
     """
@@ -8,7 +8,7 @@ defmodule XmlExTest do
         <title>Awesome</title>
       </head>
       <body>
-        <p>xml</p>
+        <p class="awesome">xml</p>
       </body>
     </html>
     """
@@ -53,6 +53,24 @@ defmodule XmlExTest do
     |> XML.content
 
     assert content == "Awesome"
+  end
+
+  test "finds all attributes" do
+    attrs = simple_xml
+    |> XML.doc
+    |> XML.xpath("/html/body/p")
+    |> XML.attributes
+
+    assert attrs == [{:class, "awesome"}]
+  end
+
+  test "finds a attribute by name" do
+    class = simple_xml
+    |> XML.doc
+    |> XML.xpath("/html/body/p")
+    |> XML.attribute(:class)
+
+    assert class == "awesome"
   end
 
   test "finds title via xpath" do
