@@ -27,6 +27,11 @@ defmodule XmlTest do
     """
   end
 
+  def unicode_html do
+    {:ok, body} = File.read("test/fixtures/list.html")
+    body
+  end
+
   test "parses a simple xml" do
     tag = XML.parse(simple_xml) |> elem(1)
     assert tag == :html
@@ -34,6 +39,11 @@ defmodule XmlTest do
 
   test "parses a unicode xml" do
     tag = XML.parse(unicode_xml) |> elem(1)
+    assert tag == :html
+  end
+
+  test "parses a unicode html" do
+    tag = XML.parse(unicode_html) |> elem(1)
     assert tag == :html
   end
 
@@ -50,7 +60,7 @@ defmodule XmlTest do
     content = simple_xml
     |> XML.parse
     |> XML.xpath("/html/head/title")
-    |> XML.content
+    |> XML.text
 
     assert content == "Awesome"
   end
