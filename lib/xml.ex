@@ -21,7 +21,7 @@ defmodule XML do
   def attribute([h|_t], name),  do: attribute(h, name)
   def attribute(element, name) do
     attributes(element)
-    |> Enum.find(fn attr -> {name, _} = attr end)
+    |> Enum.find({nil, nil}, fn attr -> elem(attr, 0) == to_string(name) end)
     |> elem(1)
   end
 end
