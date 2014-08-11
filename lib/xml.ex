@@ -19,5 +19,9 @@ defmodule XML do
   def attributes({_name, attributes, _children}), do: attributes
 
   def attribute([h|_t], name),  do: attribute(h, name)
-  def attribute(element, name), do: Dict.get(attributes(element), to_string(name))
+  def attribute(element, name) do
+    attributes(element)
+    |> Enum.find(fn attr -> {name, _} = attr end)
+    |> elem(1)
+  end
 end
