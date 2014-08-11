@@ -25,6 +25,6 @@ defmodule XmlEx.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [{:exml, github: "paulgray/exml", tag: "2.2.1"}]
   end
 end
