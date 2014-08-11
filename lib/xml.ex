@@ -1,12 +1,10 @@
 defmodule XML do
-<<<<<<< HEAD
   def parse(str) do
-    {xml, _rest} = :exml.parse(str)
-    xml
+    :mochiweb_html.parse(str)
   end
 
   def xpath(document, path) do
-    :xmerl_xpath.string to_char_list(path), document
+    :mochiweb_xpath.execute path, document
   end
 
   def children([h|_t]),  do: children(h)

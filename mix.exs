@@ -25,6 +25,8 @@ defmodule XmlEx.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:exml, github: "paulgray/exml", tag: "2.2.1"}]
+    [
+      {:mochiweb_xpath, github: "retnuh/mochiweb_xpath", tag: "v1.2.0"}
+    ]
   end
 end

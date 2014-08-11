@@ -33,18 +33,18 @@ defmodule XmlTest do
   end
 
   test "parses a simple xml" do
-    tag = XML.parse(simple_xml) |> elem(1)
-    assert tag == :html
+    tag = XML.parse(simple_xml) |> elem(0)
+    assert tag == "html"
   end
 
   test "parses a unicode xml" do
-    tag = XML.parse(unicode_xml) |> elem(1)
-    assert tag == :html
+    tag = XML.parse(unicode_xml) |> elem(0)
+    assert tag == "html"
   end
 
   test "parses a unicode html" do
-    tag = XML.parse(unicode_html) |> elem(1)
-    assert tag == :html
+    tag = XML.parse(unicode_html) |> elem(0)
+    assert tag == "html"
   end
 
   test "finds element children" do
