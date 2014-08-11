@@ -82,7 +82,10 @@ defmodule XmlTest do
   test "finds a attribute by name" do
     class = simple_xml
     |> XML.parse
-    |> XML.xpath("/html/body/p")
+    |> XML.children
+    |> Enum.at(1)
+    |> XML.children
+    |> Enum.at(0)
     |> XML.attribute(:class)
 
     assert class == "awesome"
