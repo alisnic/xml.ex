@@ -17,9 +17,7 @@ defmodule XML do
 
   def attributes([h|_t]), do: attributes(h)
   def attributes(element) do
-    element
-    |> elem(7)
-    |> Enum.map(fn e -> {elem(e,1), to_string(elem(e,8))} end)
+    element |> elem(1)
   end
 
   def attribute([h|_t], name),  do: attribute(h, name)

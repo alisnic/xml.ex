@@ -70,10 +70,13 @@ defmodule XmlTest do
   test "finds all attributes" do
     attrs = simple_xml
     |> XML.parse
-    |> XML.xpath("/html/body/p")
+    |> XML.children
+    |> Enum.at(1)
+    |> XML.children
+    |> Enum.at(0)
     |> XML.attributes
 
-    assert attrs == [{:class, "awesome"}]
+    assert attrs == [{"class", "awesome"}]
   end
 
   test "finds a attribute by name" do
