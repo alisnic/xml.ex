@@ -48,18 +48,20 @@ defmodule XmlTest do
   end
 
   test "finds element children" do
-    [child] = simple_xml
+    [child|_rest] = simple_xml
     |> XML.parse
-    |> XML.xpath("/html/head/title")
     |> XML.children
 
-    assert elem(child, 0) == :xmlText
+    assert elem(child, 0) == "head"
   end
 
   test "returns element content" do
     content = simple_xml
     |> XML.parse
-    |> XML.xpath("/html/head/title")
+    |> XML.children
+    |> Enum.at(0)
+    |> XML.children
+    |> Enum.at(0)
     |> XML.text
 
     assert content == "Awesome"
