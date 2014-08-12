@@ -27,24 +27,31 @@ defmodule XmlTest do
     """
   end
 
+
   def unicode_html do
     {:ok, body} = File.read("test/fixtures/list.html")
     body
   end
 
+  test "finds element via path" do
+    IO.puts "arsars"
+    IO.inspect XML.parse(simple_xml) |> XML.path("/html/head/title")
+  end
+
+  test "tells ether a tag matches a name" do
+    assert XML.parse(simple_xml) |> XML.is(:html) == true
+  end
+
   test "parses a simple xml" do
-    tag = XML.parse(simple_xml) |> elem(0)
-    assert tag == "html"
+    assert XML.parse(simple_xml) |> elem(0) == "html"
   end
 
   test "parses a unicode xml" do
-    tag = XML.parse(unicode_xml) |> elem(0)
-    assert tag == "html"
+    assert XML.parse(unicode_xml) |> elem(0) == "html"
   end
 
   test "parses a unicode html" do
-    tag = XML.parse(unicode_html) |> elem(0)
-    assert tag == "html"
+    assert XML.parse(unicode_html) |> elem(0) == "html"
   end
 
   test "finds element children" do
