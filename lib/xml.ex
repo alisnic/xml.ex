@@ -30,6 +30,7 @@ defmodule XML do
 
   def is([h|_t], name), do: is(h, name)
   def is({name, _attrbutes, _children}, value), do: name == to_string(value)
+  def is(_, value), do: false
 
   def children([h|_t]),  do: children(h)
   def children({_name, _attributes, children}), do: children

@@ -27,6 +27,13 @@ defmodule XmlTest do
     """
   end
 
+  setup context do
+    if context[:pending] == true do
+      :nope
+    else
+      :ok
+    end
+  end
 
   def unicode_html do
     {:ok, body} = File.read("test/fixtures/list.html")
@@ -34,8 +41,14 @@ defmodule XmlTest do
   end
 
   test "finds element via path" do
-    IO.puts "arsars"
-    IO.inspect XML.parse(simple_xml) |> XML.path("/html/head/title")
+    elem = XML.parse(simple_xml) |> XML.path("/html/head/title")
+    assert XML.is(elem, :title)
+  end
+
+  test "handles complex path" do
+    path = "/html/body/div/div/section/div/section/div/div/div/table/tbody/tr"
+    results = XML.parse(unicode_html) |> XML.path(path)
+    assert true == results |> Enum.at(0) |> XML.is(:tr)
   end
 
   test "tells ether a tag matches a name" do
@@ -98,6 +111,7 @@ defmodule XmlTest do
     assert class == "awesome"
   end
 
+  @tag pending: true
   test "finds title via xpath" do
     data = simple_xml
     |> XML.parse
