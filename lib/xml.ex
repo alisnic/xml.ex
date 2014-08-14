@@ -44,6 +44,7 @@ defmodule XML do
     |> Enum.any?(fn attr -> attr == {to_string(name), to_string(value)} end)
   end
 
+  def children([]),      do: []
   def children([h|_t]),  do: children(h)
   def children({_name, _attributes, children}), do: children
 
