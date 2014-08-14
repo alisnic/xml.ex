@@ -8,6 +8,7 @@ defmodule XmlTest do
         <title>Awesome</title>
       </head>
       <body>
+        <h1 class="foo bar">Head</h1>
         <p class="awesome">xml</p>
       </body>
     </html>
@@ -27,13 +28,13 @@ defmodule XmlTest do
     """
   end
 
-  setup context do
-    if context[:pending] == true do
-      :nope
-    else
-      :ok
-    end
-  end
+  #setup context do
+  #  if context[:pending] == true do
+  #    :nope
+  #  else
+  #    :ok
+  #  end
+  #end
 
   def unicode_html do
     {:ok, body} = File.read("test/fixtures/list.html")
@@ -76,49 +77,33 @@ defmodule XmlTest do
   end
 
   test "returns element content" do
-    content = simple_xml
-    |> XML.parse
-    |> XML.children
-    |> Enum.at(0)
-    |> XML.children
-    |> Enum.at(0)
-    |> XML.text
-
-    assert content == "Awesome"
+    elem = simple_xml |> XML.parse |> XML.path("/html/head/title")
+    assert XML.text(elem) == "Awesome"
   end
 
   test "finds all attributes" do
-    attrs = simple_xml
-    |> XML.parse
-    |> XML.children
-    |> Enum.at(1)
-    |> XML.children
-    |> Enum.at(0)
-    |> XML.attributes
-
-    assert attrs == [{"class", "awesome"}]
+    elem = simple_xml |> XML.parse |> XML.path("/html/body/p")
+    assert XML.attributes(elem) == [{"class", "awesome"}]
   end
 
   test "finds a attribute by name" do
-    class = simple_xml
-    |> XML.parse
-    |> XML.children
-    |> Enum.at(1)
-    |> XML.children
-    |> Enum.at(0)
-    |> XML.attribute(:class)
-
-    assert class == "awesome"
+    elem = simple_xml |> XML.parse |> XML.path("/html/body/p")
+    assert XML.attribute(elem, :class) == "awesome"
   end
 
   test "tells whether a node has a specific attribute" do
     elem = simple_xml |> XML.parse |> XML.path("/html/body/p")
-    assert XML.has_attribute(elem, :class) == true
+    assert XML.has_attribute?(elem, :class) == true
   end
 
   test "tells whether a node has a specific attribute with value" do
     elem = simple_xml |> XML.parse |> XML.path("/html/body/p")
-    assert XML.has_attribute(elem, :class, :awesome) == true
+    assert XML.has_attribute?(elem, :class, :awesome) == true
+  end
+
+  test "tells whether a node has a specific class" do
+    elem = simple_xml |> XML.parse |> XML.path("/html/body/h1")
+    assert XML.has_class?(elem, :bar) == true
   end
 
   #@tag pending: true
