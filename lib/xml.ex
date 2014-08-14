@@ -30,7 +30,19 @@ defmodule XML do
 
   def is([h|_t], name), do: is(h, name)
   def is({name, _attrbutes, _children}, value), do: name == to_string(value)
-  def is(_, value), do: false
+  def is(_, _value), do: false
+
+  def has_attribute([h|_t], name),        do: has_attribute(h, name)
+  def has_attribute([h|_t], name, value), do: has_attribute(h, name, value)
+  def has_attribute(document, name) do
+    attributes(document)
+    |> Enum.any?(fn {attr_name, _} -> to_string(attr_name) == to_string(name) end)
+  end
+
+  def has_attribute(document, name, value) do
+    attributes(document)
+    |> Enum.any?(fn attr -> attr == {to_string(name), to_string(value)} end)
+  end
 
   def children([h|_t]),  do: children(h)
   def children({_name, _attributes, children}), do: children

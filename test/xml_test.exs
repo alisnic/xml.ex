@@ -111,13 +111,23 @@ defmodule XmlTest do
     assert class == "awesome"
   end
 
-  @tag pending: true
-  test "finds title via xpath" do
-    data = simple_xml
-    |> XML.parse
-    |> XML.xpath("/html/head/title")
-
-    [ title ] = data
-    assert elem(title, 1) == :title
+  test "tells whether a node has a specific attribute" do
+    elem = simple_xml |> XML.parse |> XML.path("/html/body/p")
+    assert XML.has_attribute(elem, :class) == true
   end
+
+  test "tells whether a node has a specific attribute with value" do
+    elem = simple_xml |> XML.parse |> XML.path("/html/body/p")
+    assert XML.has_attribute(elem, :class, :awesome) == true
+  end
+
+  #@tag pending: true
+  #test "finds title via xpath" do
+  #  data = simple_xml
+  #  |> XML.parse
+  #  |> XML.xpath("/html/head/title")
+
+  #  [ title ] = data
+  #  assert elem(title, 1) == :title
+  #end
 end
