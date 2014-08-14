@@ -104,6 +104,7 @@ defmodule XmlTest do
   test "tells whether a node has a specific class" do
     elem = simple_xml |> XML.parse |> XML.path("/html/body/h1")
     assert XML.has_class?(elem, :bar) == true
+    assert XML.has_class?(elem, :zaz) == false
   end
 
   #@tag pending: true
